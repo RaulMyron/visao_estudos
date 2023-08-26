@@ -71,26 +71,13 @@ def drawRectangle(action, x, y, flags, *userdata):
             ix3, iy3 = -1, -1 #c 
             ix4, iy4 = -1, -1 #d
         
-    #print(counter) qtd de vezes 
+    print(counter)
  
-def normalize_pixel_value(pixel_value, min_pixel_value, max_pixel_value):
-    normalized_value = (pixel_value - min_pixel_value) / (max_pixel_value - min_pixel_value)
-    return round(normalized_value, 16)
-     
-
-image = cv2.imread("../imgs/sample_unball.png")
-
-scale_percent = 30
-width = int(image.shape[1] * scale_percent / 100)
-height = int(image.shape[0] * scale_percent / 100)
-dim = (width, height)
-image = cv2.resize(image, dim, interpolation = cv2.INTER_AREA)
-
+image = cv2.imread("../imgs/card.jpeg")
 temp = image.copy()
-
 cv2.namedWindow("Window")
 cv2.setMouseCallback("Window", drawRectangle)
-
+ 
 k=0
 
 while k!=113:
@@ -106,38 +93,20 @@ while k!=113:
         cv2.imshow("Window", image)
 
     elif k == ord('w') and ix4 != -1 and iy4 != -1:
+        
+        
 
         messagebox.showinfo('WARPING', \
                     'WARPING')
         
-        dst_pts = np.array([[0,0],[image.shape[1]-1,0],[image.shape[1]-1,image.shape[0]-1],[0,image.shape[0]-1]], dtype=np.float32)
+        #sei lá de onde eu tirei esse metodo de dst_pts, mas functiona, vo falar oq 
         src_pts = np.array([[ix1,iy1],[ix2,iy2],[ix3,iy3],[ix4,iy4]], dtype=np.float32)
-        
-        height, width, _ = image.shape
-    
-        base = np.array([[0,0],[1,0],[1,1],[0,1]])
-        
-        #[(0.1289304826416534, 0.22905718122209823), (0.6941748617054804, 0.19912401471819197), (0.6305899650427946, 0.697082257952009), (0.10528110901008493, 0.7111135428292411)]
-        src_pts_malp = []
-        
-        for i in src_pts:
-            x = normalize_pixel_value(i[0],0,image.shape[1])
-            y = normalize_pixel_value(i[1],0,image.shape[0])
-            src_pts_malp.append((x,y))
-        
-        key_points = np.array(src_pts_malp) * np.array([width, height])
-        frame_points = base * np.array([width, height])
+        dst_pts = np.array([[0,0],[image.shape[1]-1,0],[image.shape[1]-1,image.shape[0]-1],[0,image.shape[0]-1]], dtype=np.float32)
         
         M = cv2.getPerspectiveTransform(src_pts,dst_pts)
-        h, mask = cv2.findHomography(key_points, frame_points, cv2.RANSAC)
-        #h ou M H-> malp M->BINGAI
+        image = cv2.warpPerspective(image,M,(image.shape[1],image.shape[0]))
         
-        print(h)
-        print(M)
-        
-        points = np.array 
-        image = cv2.warpPerspective(image, h, (image.shape[1], image.shape[0]))
-        #image = cv2.warpPerspective(image,M,(image.shape[1],image.shape[0]))
+        #cv2.imshow('cropped',cropped_img)
 
  
 cv2.destroyAllWindows()
