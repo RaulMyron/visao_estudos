@@ -5,8 +5,8 @@ def threshold_image(img, thresh, maxThresh):
   thresholded_img = cv2.threshold(img, thresh, maxThresh, cv2.THRESH_BINARY)[1]
   return thresholded_img
 
-#img = cv2.imread('../imgs/defaulthomogra.png', cv2.IMREAD_GRAYSCALE)
-img = cv2.imread('../imgs/teste.png', cv2.IMREAD_GRAYSCALE)
+img = cv2.imread('../imgs/defaulthomogra.png', cv2.IMREAD_GRAYSCALE)
+#img = cv2.imread('../imgs/teste.png', cv2.IMREAD_GRAYSCALE)
 
 # Create a window to display the image.
 cv2.namedWindow('image')

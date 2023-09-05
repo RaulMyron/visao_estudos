@@ -73,7 +73,8 @@ def drawRectangle(action, x, y, flags, *userdata):
         
     print(counter)
  
-image = cv2.imread("../imgs/card.jpeg")
+image = cv2.imread("../imgs/sample_unball.png")
+image = cv2.resize(image, (800, 400))
 temp = image.copy()
 cv2.namedWindow("Window")
 cv2.setMouseCallback("Window", drawRectangle)
